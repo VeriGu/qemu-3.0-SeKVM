@@ -3417,6 +3417,7 @@ static inline void cpu_physical_memory_write_rom_internal(AddressSpace *as,
     uint8_t *ptr;
     hwaddr addr1;
     MemoryRegion *mr;
+    struct kvm_boot_info info;
 
     rcu_read_lock();
     while (len > 0) {
@@ -3434,6 +3435,14 @@ static inline void cpu_physical_memory_write_rom_internal(AddressSpace *as,
             case WRITE_DATA:
                 memcpy(ptr, buf, l);
                 invalidate_and_set_dirty(mr, addr1, l);
+                flush_icache_range((uintptr_t)ptr, (uintptr_t)ptr + l);
+
+		info.addr = addr;
+		info.data = ptr;
+		info.datasize = l;
+		kvm_set_boot_info(&info);
+		fprintf(stderr, "Boot addr %lx data ptr %lx size %lx\n", (unsigned long)addr, (unsigned long)ptr, (unsigned long)l);
+
                 break;
             case FLUSH_CACHE:
                 flush_icache_range((uintptr_t)ptr, (uintptr_t)ptr + l);

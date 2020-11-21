@@ -2165,6 +2165,14 @@ int kvm_device_access(int fd, int group, uint64_t attr,
     return err;
 }
 
+int kvm_set_boot_info(struct kvm_boot_info *info)
+{
+    if (kvm_vm_ioctl(kvm_state, KVM_ARM_SET_BOOT_INFO, info) < 0)
+	exit(-1);
+    return 0;
+}
+
+
 bool kvm_has_sync_mmu(void)
 {
     return kvm_state->sync_mmu;

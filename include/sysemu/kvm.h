@@ -202,6 +202,7 @@ typedef struct KVMCapabilityInfo {
 struct KVMState;
 typedef struct KVMState KVMState;
 extern KVMState *kvm_state;
+struct kvm_boot_info;
 
 /* external API */
 
@@ -218,6 +219,7 @@ int kvm_has_intx_set_mask(void);
 int kvm_init_vcpu(CPUState *cpu);
 int kvm_cpu_exec(CPUState *cpu);
 int kvm_destroy_vcpu(CPUState *cpu);
+int kvm_set_boot_info(struct kvm_boot_info *info);
 
 /**
  * kvm_arm_supports_user_irq

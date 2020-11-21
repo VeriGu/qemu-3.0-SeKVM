@@ -467,14 +467,15 @@ bool kvm_arm_get_host_cpu_features(ARMHostCPUFeatures *ahcf)
     };
     struct kvm_vcpu_init init;
 
-    if (!kvm_arm_create_scratch_host_vcpu(cpus_to_try, fdarray, &init)) {
-        return false;
-    }
+    //if (!kvm_arm_create_scratch_host_vcpu(cpus_to_try, fdarray, &init)) {
+    //    return false;
+    //}
 
-    ahcf->target = init.target;
+    //set target: 2 for seattle, 5 for m400 & raspberry pi 4
+    ahcf->target = 5;
     ahcf->dtb_compatible = "arm,arm-v8";
 
-    kvm_arm_destroy_scratch_host_vcpu(fdarray);
+    //kvm_arm_destroy_scratch_host_vcpu(fdarray);
 
    /* We can assume any KVM supporting CPU is at least a v8
      * with VFPv4+Neon; this in turn implies most of the other
